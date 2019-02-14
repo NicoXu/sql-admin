@@ -1,14 +1,6 @@
 <template>
   <div>
     <div style="margin-bottom: 16px">
-      <!-- <a-button
-        type="primary"
-        @click="start"
-        :disabled="!hasSelected"
-        :loading="loading"
-      >
-        Reload
-      </a-button>-->
       <div class="components-input-demo-size">
         <a-form class="ant-advanced-search-form" :form="form" @submit="query">
           <a-row>
@@ -82,7 +74,7 @@
       <a-button icon="edit">修改</a-button>
       <a-button type="danger" icon="delete">删除</a-button>
       <a-button type="primary" icon="file-add">新增</a-button>
-      <a-button icon="caret-down" @click="showDownloadModal">下载</a-button>
+      <a-button icon="download" @click="showDownloadModal">下载</a-button>
 
     </div>
     <a-table :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}" :columns="columns" :dataSource="data"

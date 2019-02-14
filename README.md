@@ -1,6 +1,6 @@
-# y
+# sql-admin
 
-> y
+> sql-admin
 
 ## Build Setup
 

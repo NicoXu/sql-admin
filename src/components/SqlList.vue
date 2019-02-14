@@ -187,13 +187,14 @@ export default {
 
     },
     showDownloadModal() {
-      
+
     }
   }
 };
 </script>
 
 <style lang="less" scoped>
+
   .components-input-demo-size .ant-input {
     width: 200px;
     margin: 0 8px 8px 0;

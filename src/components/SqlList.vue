@@ -70,10 +70,10 @@
         </a-form>
       </div>
 
-      <a-button type="primary" icon="search">查询</a-button>
-      <a-button icon="edit">修改</a-button>
-      <a-button type="danger" icon="delete">删除</a-button>
-      <a-button type="primary" icon="file-add">新增</a-button>
+      <a-button type="primary" icon="search" @click="querySql">查询</a-button>
+      <a-button icon="edit" @click="updateSql">修改</a-button>
+      <a-button type="danger" icon="delete" @click="deleteSql">删除</a-button>
+      <a-button type="primary" icon="file-add" @click="addSql">新增</a-button>
       <a-button icon="download" @click="showDownloadModal">下载</a-button>
 
     </div>
@@ -176,11 +176,14 @@ export default {
       this.selectedRowKeys = selectedRowKeys;
     },
     query() {
+      
+    },
+    addSql() {
 
     },
     showDownloadModal() {
 
-    }
+    },
   }
 };
 </script>

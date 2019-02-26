@@ -54,7 +54,7 @@ export default {
     onSubmit (e) {
       e.preventDefault()
       this.form.validateFields((err, values) => {
-        this.$router.push('/sql')
+        this.$router.push('/sql/list')
         // if (!err) {
         //   this.logging = true
         //   this.$axios.post('/login', {

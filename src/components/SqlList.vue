@@ -149,6 +149,9 @@ for (let i = 0; i < 46; i++) {
 }
 export default {
   name: "SqlList",
+  props: {
+    sqlLists: Array
+  },
   data() {
     return {
       data,

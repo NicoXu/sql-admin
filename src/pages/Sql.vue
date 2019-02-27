@@ -18,7 +18,8 @@
       <a-layout-header :style="{ background: '#fff', padding: 0 }"/>
       <a-layout-content :style="{ margin: '24px 16px 0' }">
         <div :style="{ padding: '24px', background: '#fff', minHeight: '900px' }">
-          <sql-list :sqlLists='sqlLists' v-if="!isAdd"/>
+          <sql-list :sqlLists='sqlLists' @addSqlCallBack='addSqlCallBack' @updateSqlCallBack='updateSqlCallBack' v-if='isSelect'/>
+          <add-sql :updateData='updateData' v-if='!isSelect'/>
         </div>
       </a-layout-content>
       <a-layout-footer style="textAlign: center">Sql-Admin ©2019</a-layout-footer>
@@ -34,18 +35,27 @@ export default {
   name: "Sql",
   data() {
     return {
-      sqlLists: []
+      sqlLists: [],
+      isSelect: true,
+      updateData: {},
     };
   },
   methods: {
     getSqlList() {
       this.$axios({
         method: "post",
-        url: "/project"
+        url: "/selectTblSql"
       }).then(res => {
-        this.projects = res.data;
-        this.loading = false;
+        if (res.resultCode) {
+          this.sqlList = res.tblSqlResponseList;
+        }
       });
+    },
+    addSqlCallBack(isSelect) {
+      this.isSelect = isSelect;
+    },
+    updateSqlCallBack(data) {
+      this.isSelect = data.isSelect;
     },
     onCollapse(collapsed, type) {
       console.log(collapsed, type);
@@ -55,7 +65,8 @@ export default {
     }
   },
   mounted() {
-    this.getSqlList()
+    // this.getSqlList()
+    this.addSqlCallBack(isSelect);
   },
 };
 </script>

@@ -18,13 +18,9 @@ export default new Router({
       component: Login
     },
     {
-      path: '/sql/list',
+      path: '/sql',
       name: 'Sql',
       component: Sql
-    },
-    {
-      path: '/sql/add',
-      name: '',
     }
   ]
 })

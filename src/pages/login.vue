@@ -54,7 +54,7 @@ export default {
     onSubmit (e) {
       e.preventDefault()
       this.form.validateFields((err, values) => {
-        this.$router.push('/sql/list')
+        this.$router.push('/sql')
         // if (!err) {
         //   this.logging = true
         //   this.$axios.post('/login', {
@@ -63,14 +63,14 @@ export default {
         //   }).then((res) => {
         //     this.logging = false
         //     const result = res.data
-        //     // if (result.code >= 0) {
-        //     //   const user = result.data.user
-        //     //   this.$router.push('/pages/Sql')
-        //     //   this.$store.commit('account/setuser', user)
-        //     //   this.$message.success(result.message, 3)
-        //     // } else {
-        //     //   this.error = result.message
-        //     // }
+        //     if (result.code >= 0) {
+        //       const user = result.data.user
+        //       this.$router.push('/pages/Sql')
+        //       this.$store.commit('account/setuser', user)
+        //       this.$message.success(result.message, 3)
+        //     } else {
+        //       this.error = result.message
+        //     }
         //   })
         // }
       })

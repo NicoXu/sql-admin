@@ -32,7 +32,6 @@
                   <a-select-option value="fengjianlong">冯建龙</a-select-option>
                   <a-select-option value="zhangxinbiao">张新标</a-select-option>
                   <a-select-option value="wangxuan">王炫</a-select-option>
-                  <a-select-option value="wangdeli">王得利</a-select-option>
                   <a-select-option value="yanwang">颜旺</a-select-option>
                   <a-select-option value="limeng">李蒙</a-select-option>
                   <a-select-option value="liupengbo">刘鹏博</a-select-option>
@@ -150,14 +149,15 @@ for (let i = 0; i < 46; i++) {
 export default {
   name: "SqlList",
   props: {
-    sqlLists: Array
+    sqlLists: Array,
   },
   data() {
     return {
       data,
       columns,
       selectedRowKeys: [], // Check here to configure the default column
-      loading: false
+      loading: false,
+      updateData: {}
     };
   },
   computed: {
@@ -182,7 +182,12 @@ export default {
       
     },
     addSql() {
-
+      this.$emit('addSqlCallBack', false);
+    },
+    updateSql() {
+      this.updateData.isSelect = false;
+      this.updateData.titleType = 'update';
+      this.this.$emit('updateSqlCallBack', this.updateData);
     },
     showDownloadModal() {
 

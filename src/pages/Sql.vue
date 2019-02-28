@@ -56,6 +56,7 @@ export default {
     },
     updateSqlCallBack(data) {
       this.isSelect = data.isSelect;
+      this.updateData = data;
     },
     onCollapse(collapsed, type) {
       console.log(collapsed, type);
@@ -67,6 +68,7 @@ export default {
   mounted() {
     // this.getSqlList()
     this.addSqlCallBack(isSelect);
+    this.updateSqlCallBack(data);
   },
 };
 </script>

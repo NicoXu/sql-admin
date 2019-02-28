@@ -187,7 +187,7 @@ export default {
     updateSql() {
       this.updateData.isSelect = false;
       this.updateData.titleType = 'update';
-      this.this.$emit('updateSqlCallBack', this.updateData);
+      this.$emit('updateSqlCallBack', this.updateData);
     },
     showDownloadModal() {
 

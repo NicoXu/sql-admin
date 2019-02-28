@@ -19,7 +19,7 @@
       <a-layout-content :style="{ margin: '24px 16px 0' }">
         <div :style="{ padding: '24px', background: '#fff', minHeight: '900px' }">
           <sql-list :sqlLists='sqlLists' @addSqlCallBack='addSqlCallBack' @updateSqlCallBack='updateSqlCallBack' v-if='isSelect'/>
-          <add-sql :updateData='updateData' v-if='!isSelect'/>
+          <add-sql :updateData='updateData' @editSqlCallBack='editSqlCallBack' v-if='!isSelect'/>
         </div>
       </a-layout-content>
       <a-layout-footer style="textAlign: center">Sql-Admin ©2019</a-layout-footer>
@@ -58,6 +58,9 @@ export default {
       this.isSelect = data.isSelect;
       this.updateData = data;
     },
+    editSqlCallBack(isSelect) {
+      this.isSelect = isSelect;
+    },
     onCollapse(collapsed, type) {
       console.log(collapsed, type);
     },
@@ -69,6 +72,7 @@ export default {
     // this.getSqlList()
     this.addSqlCallBack(isSelect);
     this.updateSqlCallBack(data);
+    this.editSqlCallBack(data);
   },
 };
 </script>

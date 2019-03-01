@@ -51,8 +51,9 @@ export default {
         }
       });
     },
-    addSqlCallBack(isSelect) {
-      this.isSelect = isSelect;
+    addSqlCallBack(data) {
+      this.isSelect = data.isSelect;
+      this.updateData = data;
     },
     updateSqlCallBack(data) {
       this.isSelect = data.isSelect;
@@ -70,7 +71,7 @@ export default {
   },
   mounted() {
     // this.getSqlList()
-    this.addSqlCallBack(isSelect);
+    this.addSqlCallBack(data);
     this.updateSqlCallBack(data);
     this.editSqlCallBack(data);
   },

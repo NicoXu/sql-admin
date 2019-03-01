@@ -7,12 +7,15 @@
             <a-button v-if="updateData.titleType !== 'update'" type="primary" icon="copy" @click="addSql">新增子项目</a-button>
         </div>
         <a-divider type="horizontal" />
+        <sql-card/>
     </div>
 </template>
 
 <script>
+import SqlCard from '../components/SqlCard';
 export default{
   name: 'AddSql',
+  components: {SqlCard},
   props: {
     updateData: Object
   },

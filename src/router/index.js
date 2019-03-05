@@ -13,14 +13,26 @@ export default new Router({
       component: Login
     },
     {
-      path: '/login',
-      name: 'Login',
-      component: Login
-    },
-    {
       path: '/sql',
       name: 'Sql',
-      component: Sql
+      component: Sql,
+      children: [
+        {
+          path: '/querySql',
+          name: 'SqlList',
+          component: 'SqlList',
+        },
+        {
+          path: '/addSql',
+          name: 'AddSql',
+          component: 'AddSql',
+        },
+        {
+          path: '/updateSql',
+          name: 'UpdateSql',
+          component: 'updateSql'
+        }
+      ]
     }
   ]
 })

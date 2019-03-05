@@ -73,7 +73,7 @@
             <a-textarea rows='4' value=""/>
           </a-form-item>
         </a-col>
-                <a-col :md="8" :sm="24">
+        <a-col :md="8" :sm="24">
           <a-form-item label="逆向脚本" :labelCol="{span: 5}" :wrapperCol="{span: 18, offset: 1}">
             <a-textarea rows='4' value=""/>
           </a-form-item>

@@ -2,6 +2,8 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Login from '@/pages/Login'
 import Sql from '@/pages/Sql'
+import SqlList from '@/components/SqlList'
+import AddSql from '@/components/AddSql'
 
 Vue.use(Router)
 
@@ -9,7 +11,7 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'Login',
+      name: '',
       component: Login
     },
     {
@@ -20,18 +22,19 @@ export default new Router({
         {
           path: '/querySql',
           name: 'SqlList',
-          component: 'SqlList',
+          component: SqlList,
         },
         {
           path: '/addSql',
           name: 'AddSql',
-          component: 'AddSql',
-        },
-        {
-          path: '/updateSql',
-          name: 'UpdateSql',
-          component: 'updateSql'
+          component: AddSql,
         }
+        ,
+        // {
+        //   path: '/updateSql',
+        //   name: 'UpdateSql',
+        //   component: 'updateSql'
+        // }
       ]
     }
   ]

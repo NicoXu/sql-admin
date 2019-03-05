@@ -1,11 +1,10 @@
 <template>
   <div>
-    
-    <span>{{updateData.titleType === 'update' ? '编辑脚本' : '新增脚本'}}</span>
+    <span>新增脚本</span>
     <div class="button-right">
       <a-button type="primary" icon="left" @click="backSql">返回</a-button>
       <a-button type="primary" icon="file-add" @click="saveSql">保存</a-button>
-      <a-button v-if="updateData.titleType !== 'update'" type="primary" icon="copy" @click="addSql">新增子项目</a-button>
+      <a-button type="primary" icon="copy" @click="addSql">新增子项目</a-button>
     </div>
     <a-divider type="horizontal" />
     <sql-card/>
@@ -27,7 +26,7 @@ export default{
   },
   methods: {
     backSql() {
-      this.$emit('editSqlCallBack', true);
+      this.$router.go(-1)
     },
   }
 }

@@ -188,9 +188,10 @@ export default {
     },
     query() {},
     addSql() {
-      this.updateData.isSelect = false;
-      this.updateData.titleType = "add";
-      this.$emit("addSqlCallBack", this.updateData);
+      // this.updateData.isSelect = false;
+      // this.updateData.titleType = "add";
+      this.$router.push('/addSql');
+      // this.$emit("addSqlCallBack", this.updateData);
     },
     updateSql() {
       this.updateData.isSelect = false;

@@ -75,21 +75,32 @@
       <a-button type="primary" icon="file-add" @click="addSql">新增</a-button>
       <a-button icon="download" @click="showDownloadModal">下载</a-button>
     </div>
-    <a-table
-      :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
-      :columns="columns"
-      :dataSource="data"
-    />
+    <a-table :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}" :columns="columns" :dataSource="data"/>
+
+    <!--下载模态框-->
     <div>
-      <!--<a-button type="primary" @click="showModal">Open Modal with async logic</a-button>-->
-      <a-modal
-        title="Title"
-        :visible="visible"
-        @ok="handleOk"
-        :confirmLoading="confirmLoading"
-        @cancel="handleCancel"
-      >
-        <p>{{ModalText}}</p>
+      <a-modal title="下载提测脚本" :visible="downloadVisible" @ok="handleOk" :confirmLoading="confirmLoading" 
+      @cancel="handleDownloadModalCancel" okText='确认' cancelText='取消'>
+        <a-form layout='vertical'>
+          <a-row>
+            <a-col :xs="12" :sm="24">
+              <a-form-item label="版本号" :labelCol="{span: 3}" :wrapperCol="{span: 14, offset: 1}">
+                <a-input lable='version' placeholder="请输入版本号" v-decorator="['version',{rules: [{ required: true, message: 'version is required!' }],}]" />
+                <span class="versionValid">版本号不能为空</span>
+              </a-form-item>
+            </a-col>
+            <a-col :xs="12" :sm="24">
+              <a-form-item label="使用环境" :labelCol="{span: 3}" :wrapperCol="{span: 14, offset: 1}">
+                <a-select>
+                  <a-select-option value="DEV">开发环境</a-select-option>
+                  <a-select-option value="SIT">测试环境</a-select-option>
+                  <a-select-option value="FT">FT环境</a-select-option>
+                  <a-select-option value="PRODUCT">生产环境</a-select-option>
+                </a-select>
+              </a-form-item>
+            </a-col>
+          </a-row>
+        </a-form>
       </a-modal>
     </div>
   </div>
@@ -165,7 +176,8 @@ export default {
       columns,
       selectedRowKeys: [], // Check here to configure the default column
       loading: false,
-      updateData: {}
+      updateData: {},
+      downloadVisible: false,
     };
   },
   computed: {
@@ -186,7 +198,9 @@ export default {
       console.log("selectedRowKeys changed: ", selectedRowKeys);
       this.selectedRowKeys = selectedRowKeys;
     },
-    query() {},
+    query() {
+
+    },
     addSql() {
       // this.updateData.isSelect = false;
       // this.updateData.titleType = "add";
@@ -194,22 +208,24 @@ export default {
       // this.$emit("addSqlCallBack", this.updateData);
     },
     updateSql() {
-      this.updateData.isSelect = false;
-      this.updateData.titleType = "update";
-      this.$emit("updateSqlCallBack", this.updateData);
+      this.$router.push('/updateSql');
     },
-    showDownloadModal() {}
+    showDownloadModal() {
+      this.downloadVisible = true;
+    },
+    handleDownloadModalCancel() {
+      this.downloadVisible = false;
+    }
   }
 };
 </script>
 
 <style lang="less" scoped>
-.components-input-demo-size .ant-input {
-  // width: 200px;
-  margin: 0 8px 8px 0;
-}
-
-.ant-advanced-search-form .ant-form-item {
-  display: flex;
-}
+  .components-input-demo-size .ant-input {
+    margin: 0 8px 8px 0;
+  }
+  
+  .ant-advanced-search-form .ant-form-item {
+    display: flex;
+  }
 </style>

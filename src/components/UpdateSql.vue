@@ -1,9 +1,14 @@
 <template>
-  <a-card>
-    <span>第{{}}条脚本</span>
-    <!--<a-button type="primary" shape="circle" ghost="true" icon="delete" :size="small"/>删除-->
-    <a-icon type="delete" twoToneColor="#eb2f96" />
-    <a-divider type="horizontal" />
+  <div>
+    <a-layout-content :style="{ background: '#fff',padding: 0 }">
+      <div class="addMoudle">
+        <span>编辑脚本</span>
+        <div class="button-right">
+          <a-button type="primary" icon="left" @click="backSql">返回</a-button>
+          <a-button type="primary" icon="file-add" @click="saveSql">保存</a-button>
+        </div>
+        <a-divider type="horizontal" />
+         <a-card>
     <a-form layout="horizontal">
       <a-row>
         <a-col :md="8" :sm="24">
@@ -72,13 +77,13 @@
             <a-input/>
           </a-form-item>
         </a-col>
-        <a-col :xs="12" :sm="16">
+        <a-col :md="8" :sm="24">
           <a-form-item label="正向脚本" :labelCol="{span: 5}" :wrapperCol="{span: 18, offset: 1}">
             <a-textarea rows='3' />
           </a-form-item>
         </a-col>
         <div style="margin: 165px 0" />
-        <a-col :xs="12" :sm="16">
+        <a-col :md="8" :sm="24">
           <a-form-item label="逆向脚本" :labelCol="{span: 5}" :wrapperCol="{span: 18, offset: 1}">
             <a-textarea rows='3' />
           </a-form-item>
@@ -86,21 +91,38 @@
       </a-row>
     </a-form>
   </a-card>
+      </div>
+      <div style="padding: 20px 0" />
+    </a-layout-content>
+  </div>
 </template>
 
 <script>
-export default {
-  name: "SqlCard",
+import SqlCard from '../components/SqlCard';
+export default{
+  name: 'UpdateSql',
+  components: {SqlCard},
+  props: {
+    updateData: Object
+  },
   data() {
-    return {};
+    return {
+       title, 
+    }
   },
   methods: {
+    backSql() {
+      this.$router.go(-1)
+    },
   }
-};
+}
 </script>
 
-<style scoped>
-  /* .ant-textarea {
-  width: 500px;
-} */
+<style lang="less" scoped>
+  .button-right {
+    float: right;
+  }
+  .addMoudle {
+    padding: 10px 20px 0px 20px; 
+  }
 </style>

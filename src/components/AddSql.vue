@@ -10,7 +10,9 @@
           <a-button type="primary" icon="copy" @click="addSql">新增子项目</a-button>
         </div>
         <a-divider type="horizontal" />
-        <sql-card/>
+        <div v-for="item in items" :key="item.id">
+            <sql-card :index='item'/>
+        </div>
       </div>
     </a-layout-content>
   </div>
@@ -21,12 +23,9 @@ import SqlCard from '../components/SqlCard';
 export default{
   name: 'AddSql',
   components: {SqlCard},
-  props: {
-    updateData: Object
-  },
   data() {
     return {
-       title, 
+       items: 1,
     }
   },
   methods: {
@@ -34,7 +33,10 @@ export default{
       this.$router.go(-1)
     },
     addSql() {
-      
+      this.items++;
+    },
+    saveSql() {
+
     }
   }
 }

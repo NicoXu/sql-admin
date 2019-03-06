@@ -66,27 +66,50 @@
               </a-form-item>
             </a-col>
           </a-row>
+          <!-- <a-form-item>
+            <a-button type="primary" icon="search" html-type="submit" @click="query">查询</a-button>
+            <a-button icon="edit" @click="updateSql">修改</a-button>
+            <a-button type="danger" icon="delete" @click="deleteSql">删除</a-button>
+            <a-button type="primary" icon="file-add" @click="addSql">新增</a-button>
+            <a-button icon="download" @click="showDownloadModal">下载</a-button>
+          </a-form-item> -->
         </a-form>
       </div>
 
-      <a-button type="primary" icon="search" @click="querySql">查询</a-button>
+      <a-button type="primary" icon="search" html-type="submit" @click="query">查询</a-button>
       <a-button icon="edit" @click="updateSql">修改</a-button>
       <a-button type="danger" icon="delete" @click="deleteSql">删除</a-button>
       <a-button type="primary" icon="file-add" @click="addSql">新增</a-button>
       <a-button icon="download" @click="showDownloadModal">下载</a-button>
     </div>
-    <a-table :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}" :columns="columns" :dataSource="data"/>
+    <a-table
+      :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
+      :columns="columns"
+      :dataSource="data"
+    />
 
     <!--下载模态框-->
     <div>
-      <a-modal title="下载提测脚本" :visible="downloadVisible" @ok="handleOk" :confirmLoading="confirmLoading" 
-      @cancel="handleDownloadModalCancel" okText='确认' cancelText='取消'>
-        <a-form layout='vertical'>
+      <a-modal
+        title="下载提测脚本"
+        :visible="downloadVisible"
+        @ok="handleOk"
+        :confirmLoading="confirmLoading"
+        @cancel="handleDownloadModalCancel"
+        okText="确认"
+        cancelText="取消"
+      >
+        <a-form layout="vertical">
           <a-row>
             <a-col :xs="12" :sm="24">
-              <a-form-item label="版本号" :labelCol="{span: 3}" :wrapperCol="{span: 14, offset: 1}">
-                <a-input lable='version' placeholder="请输入版本号" v-decorator="['version',{rules: [{ required: true, message: 'version is required!' }],}]" />
-                <span class="versionValid">版本号不能为空</span>
+              <a-form-item
+                label="版本号"
+                :labelCol="{span: 3}"
+                :wrapperCol="{span: 14, offset: 1}"
+                fieldDecoratorId="version"
+                :fieldDecoratorOptions="{rules: [{ required: true, message: '版本号不能为空', whitespace: true}]}"
+              >
+                <a-input lable="version"/>
               </a-form-item>
             </a-col>
             <a-col :xs="12" :sm="24">
@@ -177,7 +200,7 @@ export default {
       selectedRowKeys: [], // Check here to configure the default column
       loading: false,
       updateData: {},
-      downloadVisible: false,
+      downloadVisible: false
     };
   },
   computed: {
@@ -186,6 +209,9 @@ export default {
     }
   },
   methods: {
+    beforeCreate() {
+      this.form = this.$form.createForm(this);
+    },
     start() {
       this.loading = true;
       // ajax request after empty completing
@@ -198,17 +224,41 @@ export default {
       console.log("selectedRowKeys changed: ", selectedRowKeys);
       this.selectedRowKeys = selectedRowKeys;
     },
-    query() {
-
+    query(e) {
+      e.preventDefault();
+      // this.form.validateFields((err, values) => {
+      //   if (!err) {
+      //   } else {
+      //     this.$axios({
+      //       method: "post",
+      //       url: "/api/getSqlList"
+      //     }).then(res => {
+      //       if (res.resultCode) {
+      //         console.log(res);
+      //         // this.sqlList = res.sqlList;
+      //       }
+      //     });
+      //   }
+      // });
+      var url = this.HOME + '/getSqlList'
+                this.$axios({
+            method: "post",
+            url: url
+          }).then(res => {
+            if (res.resultCode) {
+              console.log(res);
+              // this.sqlList = res.sqlList;
+            }
+          });
     },
     addSql() {
-      // this.updateData.isSelect = false;
-      // this.updateData.titleType = "add";
-      this.$router.push('/addSql');
-      // this.$emit("addSqlCallBack", this.updateData);
+      this.$router.push("/addSql");
     },
     updateSql() {
-      this.$router.push('/updateSql');
+      this.$router.push("/updateSql");
+    },
+    deleteSql() {
+
     },
     showDownloadModal() {
       this.downloadVisible = true;
@@ -221,11 +271,11 @@ export default {
 </script>
 
 <style lang="less" scoped>
-  .components-input-demo-size .ant-input {
-    margin: 0 8px 8px 0;
-  }
-  
-  .ant-advanced-search-form .ant-form-item {
-    display: flex;
-  }
+.components-input-demo-size .ant-input {
+  margin: 0 8px 8px 0;
+}
+
+.ant-advanced-search-form .ant-form-item {
+  display: flex;
+}
 </style>

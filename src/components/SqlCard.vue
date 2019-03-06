@@ -1,8 +1,8 @@
 <template>
   <a-card>
-    <span>第{{}}条脚本</span>
-    <!--<a-button type="primary" shape="circle" ghost="true" icon="delete" :size="small"/>删除-->
-    <a-icon type="delete" twoToneColor="#eb2f96" />
+    <span>第{{index}}条脚本</span>
+    <!-- <a-button type="primary" shape="circle" ghost="true" icon="delete" :size="small"/>删除 -->
+    <a click="deleteCard" class="deleteLink"><a-icon type="delete" twoToneColor="#eb2f96"/>删除</a>
     <a-divider type="horizontal" />
     <a-form layout="horizontal">
       <a-row>
@@ -72,14 +72,14 @@
             <a-input/>
           </a-form-item>
         </a-col>
-        <a-col :xs="12" :sm="16">
-          <a-form-item label="正向脚本" :labelCol="{span: 5}" :wrapperCol="{span: 18, offset: 1}">
+        <a-col :xs="11" :sm="15" style="margin-left:-80px">
+          <a-form-item label="正向脚本" :labelCol="{span: 4}" :wrapperCol="{span: 17, offset: 1}">
             <a-textarea rows='3' />
           </a-form-item>
         </a-col>
         <div style="margin: 165px 0" />
-        <a-col :xs="12" :sm="16">
-          <a-form-item label="逆向脚本" :labelCol="{span: 5}" :wrapperCol="{span: 18, offset: 1}">
+        <a-col :xs="11" :sm="15" style="margin-left:-80px">
+          <a-form-item label="逆向脚本" :labelCol="{span: 4}" :wrapperCol="{span: 17, offset: 1}">
             <a-textarea rows='3' />
           </a-form-item>
         </a-col>
@@ -91,16 +91,25 @@
 <script>
 export default {
   name: "SqlCard",
+  props: [
+   'index'
+  ],
   data() {
-    return {};
+    return {
+
+    };
   },
   methods: {
+    deleteCard() {
+      
+    }
   }
 };
 </script>
 
-<style scoped>
-  /* .ant-textarea {
-  width: 500px;
-} */
+<style lang="less" scoped>
+.deleteLink {
+  display: block;
+  float: right;
+}
 </style>

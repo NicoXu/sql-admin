@@ -32,7 +32,6 @@
               <a-select-option value="zhaokaining">赵凯宁</a-select-option>
               <a-select-option value="wuzelin">吴泽林</a-select-option>
               <a-select-option value="xiedong">谢栋</a-select-option>
-              <a-select-option value="luqiang">卢强</a-select-option>
               <a-select-option value="shaorongjun">邵荣俊</a-select-option>
               <a-select-option value="zhuhaocheng">朱浩成</a-select-option>
               <a-select-option value="zangyanyan">臧延岩</a-select-option>

@@ -2,20 +2,20 @@
   <div>
     <div style="margin-bottom: 16px">
       <div class="components-input-demo-size">
-        <a-form class="ant-advanced-search-form" :form="form" @submit="query">
+        <a-form class="ant-advanced-search-form" :form="form" :autoFormCreate="(form) => this.form = form" @submit="query">
           <a-row>
             <a-col :md="8" :sm="24">
-              <a-form-item label="版本号" :labelCol="{span: 5}" :wrapperCol="{span: 18, offset: 1}">
+              <a-form-item fieldDecoratorId="version" label="版本号" :labelCol="{span: 5}" :wrapperCol="{span: 18, offset: 1}">
                 <a-input/>
               </a-form-item>
             </a-col>
             <a-col :md="8" :sm="24">
-              <a-form-item label="需求号" :labelCol="{span: 5}" :wrapperCol="{span: 18, offset: 1}">
+              <a-form-item fieldDecoratorId="requirementNumber" label="需求号" :labelCol="{span: 5}" :wrapperCol="{span: 18, offset: 1}">
                 <a-input/>
               </a-form-item>
             </a-col>
             <a-col :md="8" :sm="24">
-              <a-form-item label="作者" :labelCol="{span: 5}" :wrapperCol="{span: 18, offset: 1}">
+              <a-form-item fieldDecoratorId="author" label="作者" :labelCol="{span: 5}" :wrapperCol="{span: 18, offset: 1}">
                 <a-select>
                   <a-select-option value="xule">徐乐</a-select-option>
                   <a-select-option value="zhaokaining">赵凯宁</a-select-option>
@@ -39,16 +39,16 @@
           </a-row>
           <a-row>
             <a-col :md="8" :sm="24">
-              <a-form-item label="脚本类型" :labelCol="{span: 5}" :wrapperCol="{span: 18, offset: 1}">
+              <a-form-item fieldDecoratorId="type" label="脚本类型" :labelCol="{span: 5}" :wrapperCol="{span: 18, offset: 1}">
                 <a-select>
-                  <a-select-option value="DEV">配置数据变更</a-select-option>
-                  <a-select-option value="SIT">业务数据变更</a-select-option>
-                  <a-select-option value="FT">结构变更</a-select-option>
+                  <a-select-option value="CONFIG_DML">配置数据变更</a-select-option>
+                  <a-select-option value="BUS_DML">业务数据变更</a-select-option>
+                  <a-select-option value="CONFIG_DDL">结构变更</a-select-option>
                 </a-select>
               </a-form-item>
             </a-col>
             <a-col :md="8" :sm="24">
-              <a-form-item label="使用环境" :labelCol="{span: 5}" :wrapperCol="{span: 18, offset: 1}">
+              <a-form-item fieldDecoratorId="enviroment" label="使用环境" :labelCol="{span: 5}" :wrapperCol="{span: 18, offset: 1}">
                 <a-select>
                   <a-select-option value="DEV">开发环境</a-select-option>
                   <a-select-option value="SIT">测试环境</a-select-option>
@@ -58,7 +58,7 @@
               </a-form-item>
             </a-col>
             <a-col :md="8" :sm="24">
-              <a-form-item label="有效" :labelCol="{span: 5}" :wrapperCol="{span: 18, offset: 1}">
+              <a-form-item fieldDecoratorId="isValid" label="有效" :labelCol="{span: 5}" :wrapperCol="{span: 18, offset: 1}">
                 <a-select defaultValue="1">
                   <a-select-option value="1">有效</a-select-option>
                   <a-select-option value="2">无效</a-select-option>
@@ -82,34 +82,18 @@
       <a-button type="primary" icon="file-add" @click="addSql">新增</a-button>
       <a-button icon="download" @click="showDownloadModal">下载</a-button>
     </div>
-    <a-table
-      :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
-      :columns="columns"
-      :dataSource="data"
+    <a-table :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}" :columns="columns" :dataSource="tblSqlList"
     />
 
     <!--下载模态框-->
     <div>
-      <a-modal
-        title="下载提测脚本"
-        :visible="downloadVisible"
-        @ok="handleOk"
-        :confirmLoading="confirmLoading"
-        @cancel="handleDownloadModalCancel"
-        okText="确认"
-        cancelText="取消"
-      >
+      <a-modal title="下载提测脚本" :visible="downloadVisible" @ok="handleDownloadOk" @cancel="handleDownloadModalCancel" okText="确认"
+        cancelText="取消">
         <a-form layout="vertical">
           <a-row>
             <a-col :xs="12" :sm="24">
-              <a-form-item
-                label="版本号"
-                :labelCol="{span: 3}"
-                :wrapperCol="{span: 14, offset: 1}"
-                fieldDecoratorId="version"
-                :fieldDecoratorOptions="{rules: [{ required: true, message: '版本号不能为空', whitespace: true}]}"
-              >
-                <a-input lable="version"/>
+              <a-form-item label="版本号" :labelCol="{span: 3}" :wrapperCol="{span: 14, offset: 1}" fieldDecoratorId="version" :fieldDecoratorOptions="{rules: [{ required: true, message: '版本号不能为空', whitespace: true}]}">
+                <a-input />
               </a-form-item>
             </a-col>
             <a-col :xs="12" :sm="24">
@@ -173,21 +157,21 @@ const columns = [
   }
 ];
 
-const data = [];
-for (let i = 0; i < 46; i++) {
-  data.push({
-    key: i,
-    version: `20180222 ${i}`,
-    requirementNumber: `REQ7412399 ${i}`,
-    type: `CONFIG_DML ${i}`,
-    enviroment: "sit",
-    isValid: "1",
-    author: "XULE",
-    comment: "这是测试，sql脚本都是乱写的",
-    createDate: "2019-02-14 10:52:00",
-    updateDate: "2019-02-14 10:52:00"
-  });
-}
+// const data = [];
+// for (let i = 0; i < 46; i++) {
+//   data.push({
+//     key: i,
+//     version: `20180222 ${i}`,
+//     requirementNumber: `REQ7412399 ${i}`,
+//     type: `CONFIG_DML ${i}`,
+//     enviroment: "sit",
+//     isValid: "1",
+//     author: "XULE",
+//     comment: "这是测试，sql脚本都是乱写的",
+//     createDate: "2019-02-14 10:52:00",
+//     updateDate: "2019-02-14 10:52:00"
+//   });
+// }
 export default {
   name: "SqlList",
   props: {
@@ -195,12 +179,11 @@ export default {
   },
   data() {
     return {
-      data,
+      tblSqlList: [],
       columns,
       selectedRowKeys: [], // Check here to configure the default column
       loading: false,
-      updateData: {},
-      downloadVisible: false
+      downloadVisible: false,
     };
   },
   computed: {
@@ -209,9 +192,6 @@ export default {
     }
   },
   methods: {
-    beforeCreate() {
-      this.form = this.$form.createForm(this);
-    },
     start() {
       this.loading = true;
       // ajax request after empty completing
@@ -226,30 +206,26 @@ export default {
     },
     query(e) {
       e.preventDefault();
-      // this.form.validateFields((err, values) => {
-      //   if (!err) {
-      //   } else {
-      //     this.$axios({
-      //       method: "post",
-      //       url: "/api/getSqlList"
-      //     }).then(res => {
-      //       if (res.resultCode) {
-      //         console.log(res);
-      //         // this.sqlList = res.sqlList;
-      //       }
-      //     });
-      //   }
-      // });
-      var url = this.HOME + '/getSqlList'
-                this.$axios({
-            method: "post",
-            url: url
-          }).then(res => {
-            if (res.resultCode) {
-              console.log(res);
-              // this.sqlList = res.sqlList;
-            }
-          });
+      var url = this.HOME + '/selectTblSql'
+      this.$axios({
+      method: "post",
+      url: url,
+      data: {
+        version: this.form.getFieldValue('version'),
+        author: this.form.getFieldValue('author'),
+        type: this.form.getFieldValue('type'),
+        enviroment: this.form.getFieldValue('enviroment'),
+        isValid: this.form.getFieldValue('isValid'),
+        requirementNumber: this.form.getFieldValue('requirementNumber')
+      }
+    }).then(res => {
+        if (res.resultCode) {
+          // {"resultCode":"true","resultMsg":"正常响应","tblSqlList":[{"author":"xule","id":2,"isValid":"1"}]}
+          this.data = res.tblSqlList;
+        } else {
+          
+        }
+      });
     },
     addSql() {
       this.$router.push("/addSql");
@@ -265,17 +241,20 @@ export default {
     },
     handleDownloadModalCancel() {
       this.downloadVisible = false;
-    }
+    },
+    handleDownloadOk() {
+      this.downloadVisible = false;
+    },
   }
 };
 </script>
 
 <style lang="less" scoped>
-.components-input-demo-size .ant-input {
-  margin: 0 8px 8px 0;
-}
-
-.ant-advanced-search-form .ant-form-item {
-  display: flex;
-}
+  .components-input-demo-size .ant-input {
+    margin: 0 8px 8px 0;
+  }
+  
+  .ant-advanced-search-form .ant-form-item {
+    display: flex;
+  }
 </style>

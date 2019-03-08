@@ -65,7 +65,7 @@ export default {
       console.log(collapsed, type);
     },
     onBreakpoint(broken) {
-      console.log(broken);
+
     },
     defaultActive() {
       // this.$route.path.replace("/", "/querySql");

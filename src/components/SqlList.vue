@@ -77,8 +77,8 @@
       </div>
 
       <a-button type="primary" icon="search" html-type="submit" @click="query">查询</a-button>
-      <a-button icon="edit" @click="updateSql">修改</a-button>
-      <a-button type="danger" icon="delete" @click="deleteSql">删除</a-button>
+      <a-button icon="edit" :disabled="updateBtnDisabled" @click="updateSql">修改</a-button>
+      <a-button type="danger" :disabled="deleteBtnDisabled" icon="delete" @click="deleteSql">删除</a-button>
       <a-button type="primary" icon="file-add" @click="addSql">新增</a-button>
       <a-button icon="download" @click="showDownloadModal">下载</a-button>
     </div>
@@ -184,6 +184,8 @@ export default {
       selectedRowKeys: [], // Check here to configure the default column
       loading: false,
       downloadVisible: false,
+      updateBtnDisabled: true,
+      deleteBtnDisabled: true,
     };
   },
   computed: {
@@ -202,6 +204,18 @@ export default {
     },
     onSelectChange(selectedRowKeys) {
       console.log("selectedRowKeys changed: ", selectedRowKeys);
+      //选中的数据总数为1时才能修改
+      if (selectedRowKeys.length === 1) {
+        this.updateBtnDisabled = false;
+      } else {
+        this.updateBtnDisabled = true;
+      }
+      //选中的数据总数>0时才能删除
+      if (selectedRowKeys.length > 0) {
+        this.deleteBtnDisabled = false;
+      } else {
+        this.deleteBtnDisabled = true;
+      }
       this.selectedRowKeys = selectedRowKeys;
     },
     query(e) {
@@ -219,9 +233,15 @@ export default {
         requirementNumber: this.form.getFieldValue('requirementNumber')
       }
     }).then(res => {
-        if (res.resultCode) {
+        var resData = res.data;
+        if (resData.resultCode) {
           // {"resultCode":"true","resultMsg":"正常响应","tblSqlList":[{"author":"xule","id":2,"isValid":"1"}]}
-          this.data = res.tblSqlList;
+          for (var i=0; i<resData.tblSqlList.length; i++) {
+            resData.tblSqlList[i].key = resData.tblSqlList[i].id;
+            this.tblSqlList.push(resData.tblSqlList[i]);
+          }
+          // this.tblSqlList = resData.tblSqlList;
+          console.log("this.tblSqlList:"+ this.tblSqlList);
         } else {
           
         }
@@ -231,10 +251,12 @@ export default {
       this.$router.push("/addSql");
     },
     updateSql() {
-      this.$router.push("/updateSql");
+      console.log(this.selectedRowKeys);
+      var sqlId = this.selectedRowKeys[0]; 
+      this.$router.push("/updateSql", sqlId);
     },
     deleteSql() {
-
+      
     },
     showDownloadModal() {
       this.downloadVisible = true;

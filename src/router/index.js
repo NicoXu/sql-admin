@@ -31,7 +31,7 @@ export default new Router({
           component: AddSql,
         },
         {
-          path: '/updateSql',
+          path: '/updateSql/:id',
           name: 'UpdateSql',
           component: UpdateSql
         }

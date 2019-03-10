@@ -9,24 +9,24 @@
         </div>
         <a-divider type="horizontal" />
          <a-card>
-    <a-form layout="horizontal">
+    <a-form layout="horizontal" :form="form" :autoFormCreate="(form) => this.form = form" @submit="saveSql">
       <a-row>
         <a-col :md="8" :sm="24">
-          <a-form-item label="版本号" :labelCol="{span: 5}" :wrapperCol="{span: 18, offset: 1}">
+          <a-form-item label="版本号" fieldDecoratorId="version" :labelCol="{span: 5}" :wrapperCol="{span: 18, offset: 1}">
             <a-input/>
           </a-form-item>
         </a-col>
         <a-col :md="8" :sm="24">
-          <a-form-item label="脚本类型" :labelCol="{span: 5}" :wrapperCol="{span: 18, offset: 1}">
+          <a-form-item label="脚本类型" fieldDecoratorId="type" :labelCol="{span: 5}" :wrapperCol="{span: 18, offset: 1}">
             <a-select>
-              <a-select-option value="DEV">配置数据变更</a-select-option>
-              <a-select-option value="SIT">业务数据变更</a-select-option>
-              <a-select-option value="FT">结构变更</a-select-option>
+                <a-select-option value="CONFIG_DML">配置数据变更</a-select-option>
+                <a-select-option value="BUS_DML">业务数据变更</a-select-option>
+                <a-select-option value="CONFIG_DDL">结构变更</a-select-option>
             </a-select>
           </a-form-item>
         </a-col>
         <a-col :md="8" :sm="24">
-          <a-form-item label="作者" :labelCol="{span: 5}" :wrapperCol="{span: 18, offset: 1}">
+          <a-form-item label="作者" fieldDecoratorId="author" :labelCol="{span: 5}" :wrapperCol="{span: 18, offset: 1}">
             <a-select>
               <a-select-option value="xule">徐乐</a-select-option>
               <a-select-option value="zhaokaining">赵凯宁</a-select-option>
@@ -49,12 +49,12 @@
       </a-row>
       <a-row>
         <a-col :md="8" :sm="24">
-          <a-form-item label="需求号" :labelCol="{span: 5}" :wrapperCol="{span: 18, offset: 1}">
+          <a-form-item label="需求号" fieldDecoratorId="requirementNumber" :labelCol="{span: 5}" :wrapperCol="{span: 18, offset: 1}">
             <a-input/>
           </a-form-item>
         </a-col>
         <a-col :md="8" :sm="24">
-          <a-form-item label="使用环境" :labelCol="{span: 5}" :wrapperCol="{span: 18, offset: 1}">
+          <a-form-item label="使用环境" fieldDecoratorId="environment" :labelCol="{span: 5}" :wrapperCol="{span: 18, offset: 1}">
             <a-select>
               <a-select-option value="DEV">开发环境</a-select-option>
               <a-select-option value="SIT">测试环境</a-select-option>
@@ -72,18 +72,18 @@
           </a-form-item>
         </a-col> -->
         <a-col :md="8" :sm="24">
-          <a-form-item label="备注" :labelCol="{span: 5}" :wrapperCol="{span: 18, offset: 1}">
+          <a-form-item label="备注" fieldDecoratorId="comment" :labelCol="{span: 5}" :wrapperCol="{span: 18, offset: 1}">
             <a-input/>
           </a-form-item>
         </a-col>
         <a-col :md="8" :sm="24">
-          <a-form-item label="正向脚本" :labelCol="{span: 5}" :wrapperCol="{span: 18, offset: 1}">
+          <a-form-item label="正向脚本" fieldDecoratorId="sqlText" :labelCol="{span: 5}" :wrapperCol="{span: 18, offset: 1}">
             <a-textarea rows='3' />
           </a-form-item>
         </a-col>
         <div style="margin: 165px 0" />
         <a-col :md="8" :sm="24">
-          <a-form-item label="逆向脚本" :labelCol="{span: 5}" :wrapperCol="{span: 18, offset: 1}">
+          <a-form-item label="逆向脚本" fieldDecoratorId="sqlTextBack" :labelCol="{span: 5}" :wrapperCol="{span: 18, offset: 1}">
             <a-textarea rows='3' />
           </a-form-item>
         </a-col>
@@ -106,13 +106,64 @@ export default{
   },
   data() {
     return {
-       title, 
+
     }
   },
   methods: {
     backSql() {
       this.$router.go(-1)
     },
+    getSql() {
+      var sqlId = this.$route.params.id;
+      var url = this.HOME + '/getSqlById';
+      this.$axios({
+        method: "post",
+        url: url,
+        data: {
+          id: sqlId
+        }
+    }).then(res => {
+        var resData = res.data;
+        if (resData.success) {
+            console.log("版本号:" + resData.data.version);
+            this.form.setFieldsValue({['version']: resData.data.version});
+            this.form.setFieldsValue({['type']: resData.data.type});
+            this.form.setFieldsValue({['author']: resData.data.author});
+            this.form.setFieldsValue({['requirementNumber']: resData.data.requirementNumber});
+            this.form.setFieldsValue({['environment']: resData.data.environment});
+            this.form.setFieldsValue({['comment']: resData.data.comment});
+            this.form.setFieldsValue({['sqlText']: resData.data.sqlText});
+            this.form.setFieldsValue({['sqlTextBack']: resData.data.sqlTextBack});
+        }
+      });
+    },
+    saveSql() {
+      var url = this.HOME + '/updateSql';
+      this.$axios({
+        method: "post",
+        url: url,
+        data: {
+            id: this.$route.params.id,
+            version: this.form.getFieldValue('version'),
+            author: this.form.getFieldValue('author'),
+            type: this.form.getFieldValue('type'),
+            environment: this.form.getFieldValue('environment'),
+            // isValid: this.form.getFieldValue('isValid'),
+            requirementNumber: this.form.getFieldValue('requirementNumber'),
+            comment: this.form.getFieldValue('comment'),
+            sqlText: this.form.getFieldValue('sqlText'),
+            sqlTextBack: this.form.getFieldValue('sqlTextBack')
+        }
+      }).then(res => {
+        var resData = res.data;
+        if (resData.success) {
+          this.getSql();
+        }
+      });
+    }
+  },
+  mounted() {
+    this.getSql();
   }
 }
 </script>

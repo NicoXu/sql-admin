@@ -1,8 +1,8 @@
 <template>
   <div>
     <!--<a-layout-header :style="{ background: '#fff', padding: 0 }"/>-->
-    <a-layout-content :style="{ background: '#fff',padding: 0 }">
-      <div class="addMoudle">
+    <a-layout-content :style="{ background: '#fff',padding: 0, margin: 50 }">
+      <div class="addMoudle" style="padding-bottom:30px">
         <span>新增脚本</span>
         <div class="button-right">
           <a-button type="primary" icon="left" @click="backSql">返回</a-button>
@@ -15,6 +15,9 @@
         </div>
       </div>
     </a-layout-content>
+    <div>
+      
+    </div>
   </div>
 </template>
 

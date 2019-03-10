@@ -2,20 +2,40 @@
   <div>
     <div style="margin-bottom: 16px">
       <div class="components-input-demo-size">
-        <a-form class="ant-advanced-search-form" :form="form" :autoFormCreate="(form) => this.form = form" @submit="query">
+        <a-form
+          class="ant-advanced-search-form"
+          :form="form"
+          :autoFormCreate="(form) => this.form = form"
+          @submit="query"
+        >
           <a-row>
             <a-col :md="8" :sm="24">
-              <a-form-item fieldDecoratorId="version" label="版本号" :labelCol="{span: 5}" :wrapperCol="{span: 18, offset: 1}">
+              <a-form-item
+                fieldDecoratorId="version"
+                label="版本号"
+                :labelCol="{span: 5}"
+                :wrapperCol="{span: 18, offset: 1}"
+              >
                 <a-input/>
               </a-form-item>
             </a-col>
             <a-col :md="8" :sm="24">
-              <a-form-item fieldDecoratorId="requirementNumber" label="需求号" :labelCol="{span: 5}" :wrapperCol="{span: 18, offset: 1}">
+              <a-form-item
+                fieldDecoratorId="requirementNumber"
+                label="需求号"
+                :labelCol="{span: 5}"
+                :wrapperCol="{span: 18, offset: 1}"
+              >
                 <a-input/>
               </a-form-item>
             </a-col>
             <a-col :md="8" :sm="24">
-              <a-form-item fieldDecoratorId="author" label="作者" :labelCol="{span: 5}" :wrapperCol="{span: 18, offset: 1}">
+              <a-form-item
+                fieldDecoratorId="author"
+                label="作者"
+                :labelCol="{span: 5}"
+                :wrapperCol="{span: 18, offset: 1}"
+              >
                 <a-select>
                   <a-select-option value="xule">徐乐</a-select-option>
                   <a-select-option value="zhaokaining">赵凯宁</a-select-option>
@@ -39,7 +59,12 @@
           </a-row>
           <a-row>
             <a-col :md="8" :sm="24">
-              <a-form-item fieldDecoratorId="type" label="脚本类型" :labelCol="{span: 5}" :wrapperCol="{span: 18, offset: 1}">
+              <a-form-item
+                fieldDecoratorId="type"
+                label="脚本类型"
+                :labelCol="{span: 5}"
+                :wrapperCol="{span: 18, offset: 1}"
+              >
                 <a-select>
                   <a-select-option value="CONFIG_DML">配置数据变更</a-select-option>
                   <a-select-option value="BUS_DML">业务数据变更</a-select-option>
@@ -48,7 +73,12 @@
               </a-form-item>
             </a-col>
             <a-col :md="8" :sm="24">
-              <a-form-item fieldDecoratorId="enviroment" label="使用环境" :labelCol="{span: 5}" :wrapperCol="{span: 18, offset: 1}">
+              <a-form-item
+                fieldDecoratorId="environment"
+                label="使用环境"
+                :labelCol="{span: 5}"
+                :wrapperCol="{span: 18, offset: 1}"
+              >
                 <a-select>
                   <a-select-option value="DEV">开发环境</a-select-option>
                   <a-select-option value="SIT">测试环境</a-select-option>
@@ -58,7 +88,12 @@
               </a-form-item>
             </a-col>
             <a-col :md="8" :sm="24">
-              <a-form-item fieldDecoratorId="isValid" label="有效" :labelCol="{span: 5}" :wrapperCol="{span: 18, offset: 1}">
+              <a-form-item
+                fieldDecoratorId="isValid"
+                label="有效"
+                :labelCol="{span: 5}"
+                :wrapperCol="{span: 18, offset: 1}"
+              >
                 <a-select defaultValue="1">
                   <a-select-option value="1">有效</a-select-option>
                   <a-select-option value="2">无效</a-select-option>
@@ -66,13 +101,6 @@
               </a-form-item>
             </a-col>
           </a-row>
-          <!-- <a-form-item>
-            <a-button type="primary" icon="search" html-type="submit" @click="query">查询</a-button>
-            <a-button icon="edit" @click="updateSql">修改</a-button>
-            <a-button type="danger" icon="delete" @click="deleteSql">删除</a-button>
-            <a-button type="primary" icon="file-add" @click="addSql">新增</a-button>
-            <a-button icon="download" @click="showDownloadModal">下载</a-button>
-          </a-form-item> -->
         </a-form>
       </div>
 
@@ -82,18 +110,41 @@
       <a-button type="primary" icon="file-add" @click="addSql">新增</a-button>
       <a-button icon="download" @click="showDownloadModal">下载</a-button>
     </div>
-    <a-table :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}" :columns="columns" :dataSource="tblSqlList"
-    />
+    <a-table
+      :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
+      :columns="columns"
+      :dataSource="tblSqlList"
+      :selection="{onSelect: onRowSelect}"
+    >
+      <a
+        slot="sqlDetail"
+        slot-scope="text"
+        href="javascript:;"
+        @click="showSqlDetail(text)"
+      >{{text}}</a>
+    </a-table>
 
     <!--下载模态框-->
     <div>
-      <a-modal title="下载提测脚本" :visible="downloadVisible" @ok="handleDownloadOk" @cancel="handleDownloadModalCancel" okText="确认"
-        cancelText="取消">
+      <a-modal
+        title="下载提测脚本"
+        :visible="downloadVisible"
+        @ok="handleDownloadOk"
+        @cancel="handleDownloadModalCancel"
+        okText="确认"
+        cancelText="取消"
+      >
         <a-form layout="vertical">
           <a-row>
             <a-col :xs="12" :sm="24">
-              <a-form-item label="版本号" :labelCol="{span: 3}" :wrapperCol="{span: 14, offset: 1}" fieldDecoratorId="version" :fieldDecoratorOptions="{rules: [{ required: true, message: '版本号不能为空', whitespace: true}]}">
-                <a-input />
+              <a-form-item
+                label="版本号"
+                :labelCol="{span: 3}"
+                :wrapperCol="{span: 14, offset: 1}"
+                fieldDecoratorId="version"
+                :fieldDecoratorOptions="{rules: [{ required: true, message: '版本号不能为空', whitespace: true}]}"
+              >
+                <a-input/>
               </a-form-item>
             </a-col>
             <a-col :xs="12" :sm="24">
@@ -108,6 +159,60 @@
             </a-col>
           </a-row>
         </a-form>
+      </a-modal>
+    </div>
+
+    <!--删除模态框-->
+    <div>
+      <a-modal
+        title="删除所选脚本"
+        :visible="deleteVisible"
+        @ok="handleDeleteOk"
+        @cancel="handleDeleteModalCancel"
+        okText="确认"
+        cancelText="取消"
+      >
+        <a-form layout="vertical">
+          <a-row>
+            <a-col :xs="12" :sm="24">
+              <a-form-item
+                label="版本号"
+                :labelCol="{span: 3}"
+                :wrapperCol="{span: 14, offset: 1}"
+                fieldDecoratorId="version"
+                :fieldDecoratorOptions="{rules: [{ required: true, message: '版本号不能为空', whitespace: true}]}"
+              >
+                <a-input/>
+              </a-form-item>
+            </a-col>
+            <a-col :xs="12" :sm="24">
+              <a-form-item label="使用环境" :labelCol="{span: 3}" :wrapperCol="{span: 14, offset: 1}">
+                <a-select>
+                  <a-select-option value="DEV">开发环境</a-select-option>
+                  <a-select-option value="SIT">测试环境</a-select-option>
+                  <a-select-option value="FT">FT环境</a-select-option>
+                  <a-select-option value="PRODUCT">生产环境</a-select-option>
+                </a-select>
+              </a-form-item>
+            </a-col>
+          </a-row>
+        </a-form>
+      </a-modal>
+    </div>
+
+    <!--当前脚本模态框-->
+    <div>
+      <a-modal
+        :title="sqlName"
+        :visible="sqlDetailVisible"
+        :closable="false"
+        @ok="handleSqlDetailOk"
+        okText="知道了"
+      >
+        <span style="font-weight:bold">正向脚本:</span>
+        <p style="color:red">{{sqlText}}</p>
+        <span style="font-weight:bold">逆向脚本:</span>
+        <p>{{sqlTextBack}}</p>
       </a-modal>
     </div>
   </div>
@@ -129,11 +234,12 @@ const columns = [
   },
   {
     title: "脚本",
-    dataIndex: "address"
+    dataIndex: "sqlDetail",
+    scopedSlots: { customRender: "sqlDetail" }
   },
   {
     title: "环境",
-    dataIndex: "enviroment"
+    dataIndex: "environment"
   },
   {
     title: "有效",
@@ -186,6 +292,10 @@ export default {
       downloadVisible: false,
       updateBtnDisabled: true,
       deleteBtnDisabled: true,
+      sqlDetailVisible: false,
+      sqlName: "",
+      sqlText: "",
+      sqlTextBack: ""
     };
   },
   computed: {
@@ -220,30 +330,39 @@ export default {
     },
     query(e) {
       e.preventDefault();
-      var url = this.HOME + '/selectTblSql'
+      var url = this.HOME + "/selectTblSql";
       this.$axios({
-      method: "post",
-      url: url,
-      data: {
-        version: this.form.getFieldValue('version'),
-        author: this.form.getFieldValue('author'),
-        type: this.form.getFieldValue('type'),
-        enviroment: this.form.getFieldValue('enviroment'),
-        isValid: this.form.getFieldValue('isValid'),
-        requirementNumber: this.form.getFieldValue('requirementNumber')
-      }
-    }).then(res => {
+        method: "post",
+        url: url,
+        data: {
+          version: this.form.getFieldValue("version"),
+          author: this.form.getFieldValue("author"),
+          type: this.form.getFieldValue("type"),
+          environment: this.form.getFieldValue("environment"),
+          isValid: this.form.getFieldValue("isValid"),
+          requirementNumber: this.form.getFieldValue("requirementNumber")
+        }
+      }).then(res => {
+        this.tblSqlList = [];
+        console.log(res);
         var resData = res.data;
-        if (resData.resultCode) {
-          // {"resultCode":"true","resultMsg":"正常响应","tblSqlList":[{"author":"xule","id":2,"isValid":"1"}]}
-          for (var i=0; i<resData.tblSqlList.length; i++) {
-            resData.tblSqlList[i].key = resData.tblSqlList[i].id;
-            this.tblSqlList.push(resData.tblSqlList[i]);
+        // if (resData.resultCode) {
+        //   // {"resultCode":"true","resultMsg":"正常响应","tblSqlList":[{"author":"xule","id":2,"isValid":"1"}]}
+        //   for (var i=0; i<resData.tblSqlList.length; i++) {
+        //      resData.tblSqlList[i].key = resData.tblSqlList[i].id;
+        //      this.tblSqlList.push(resData.tblSqlList[i]);
+        //   }
+        //   // this.tblSqlList = resData.tblSqlList;
+        //    console.log("this.tblSqlList:"+ this.tblSqlList);
+        // } else {
+
+        // }
+        if (resData.success) {
+          for (var i = 0; i < resData.data.length; i++) {
+            resData.data[i].key = resData.data[i].id;
+            resData.data[i].sqlDetail = resData.data[i].id;
+            this.tblSqlList.push(resData.data[i]);
           }
-          // this.tblSqlList = resData.tblSqlList;
-          console.log("this.tblSqlList:"+ this.tblSqlList);
-        } else {
-          
         }
       });
     },
@@ -252,31 +371,45 @@ export default {
     },
     updateSql() {
       console.log(this.selectedRowKeys);
-      var sqlId = this.selectedRowKeys[0]; 
-      this.$router.push("/updateSql", sqlId);
+      var sqlId = this.selectedRowKeys[0];
+      this.$router.push(`/updateSql/${sqlId}`);
     },
-    deleteSql() {
-      
+    showSqlDetail(key) {
+      for (var i = 0; i < this.tblSqlList.length; i++) {
+        if (key === this.tblSqlList[i].id) {
+          this.sqlName = this.tblSqlList[i].version + "版本的" + this.tblSqlList[i].type + "脚本";
+          this.sqlText = this.tblSqlList[i].sqlText;
+          this.sqlTextBack = this.tblSqlList[i].sqlTextBack;
+          break;
+        }
+      }
+      this.sqlDetailVisible = true;
     },
+    deleteSql() {},
+    handleDeleteOk() {},
+    handleDeleteModalCancel() {},
     showDownloadModal() {
       this.downloadVisible = true;
     },
     handleDownloadModalCancel() {
       this.downloadVisible = false;
     },
+    handleSqlDetailOk() {
+      this.sqlDetailVisible = false;
+    },
     handleDownloadOk() {
       this.downloadVisible = false;
-    },
+    }
   }
 };
 </script>
 
 <style lang="less" scoped>
-  .components-input-demo-size .ant-input {
-    margin: 0 8px 8px 0;
-  }
-  
-  .ant-advanced-search-form .ant-form-item {
-    display: flex;
-  }
+.components-input-demo-size .ant-input {
+  margin: 0 8px 8px 0;
+}
+
+.ant-advanced-search-form .ant-form-item {
+  display: flex;
+}
 </style>

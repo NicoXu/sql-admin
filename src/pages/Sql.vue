@@ -1,5 +1,5 @@
 <template>
-  <a-layout id="components-layout-demo-responsive">
+  <a-layout id="components-layout-demo-responsive" >
     <a-layout-sider breakpoint="lg" collapsedWidth="0" @collapse="onCollapse" @breakpoint="onBreakpoint">
       <div class="header">
         <img alt="logo" class="logo" src="static/img/vue-antd-logo.png">
@@ -16,7 +16,7 @@
     </a-layout-sider>
     <a-layout>
       <a-layout-header :style="{ background: '#fff', padding: 0 }" />
-      <a-layout-content :style="{ margin: '24px 16px 0' }">
+      <a-layout-content :style="{ margin: '24px 16px 0',minHeight: '900px' }">
         <keep-alive>
           <router-view></router-view>
         </keep-alive>
@@ -50,17 +50,6 @@ export default {
         }
       });
     },
-    addSqlCallBack(data) {
-      this.isSelect = data.isSelect;
-      this.updateData = data;
-    },
-    updateSqlCallBack(data) {
-      this.isSelect = data.isSelect;
-      this.updateData = data;
-    },
-    editSqlCallBack(isSelect) {
-      this.isSelect = isSelect;
-    },
     onCollapse(collapsed, type) {
       console.log(collapsed, type);
     },
@@ -73,10 +62,6 @@ export default {
     }
   },
   mounted() {
-    // this.getSqlList()
-    // this.addSqlCallBack(data);
-    // this.updateSqlCallBack(data);
-    // this.editSqlCallBack(data);
     this.defaultActive();
   }
 };

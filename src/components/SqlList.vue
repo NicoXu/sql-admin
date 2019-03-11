@@ -172,31 +172,7 @@
         okText="确认"
         cancelText="取消"
       >
-        <a-form layout="vertical">
-          <a-row>
-            <a-col :xs="12" :sm="24">
-              <a-form-item
-                label="版本号"
-                :labelCol="{span: 3}"
-                :wrapperCol="{span: 14, offset: 1}"
-                fieldDecoratorId="version"
-                :fieldDecoratorOptions="{rules: [{ required: true, message: '版本号不能为空', whitespace: true}]}"
-              >
-                <a-input/>
-              </a-form-item>
-            </a-col>
-            <a-col :xs="12" :sm="24">
-              <a-form-item label="使用环境" :labelCol="{span: 3}" :wrapperCol="{span: 14, offset: 1}">
-                <a-select>
-                  <a-select-option value="DEV">开发环境</a-select-option>
-                  <a-select-option value="SIT">测试环境</a-select-option>
-                  <a-select-option value="FT">FT环境</a-select-option>
-                  <a-select-option value="PRODUCT">生产环境</a-select-option>
-                </a-select>
-              </a-form-item>
-            </a-col>
-          </a-row>
-        </a-form>
+        <p style="color:red,font-weight:bold">确认删除所选脚本？</p>
       </a-modal>
     </div>
 
@@ -289,6 +265,7 @@ export default {
       columns,
       selectedRowKeys: [], // Check here to configure the default column
       loading: false,
+      deleteVisible: false,
       downloadVisible: false,
       updateBtnDisabled: true,
       deleteBtnDisabled: true,
@@ -302,6 +279,9 @@ export default {
     hasSelected() {
       return this.selectedRowKeys.length > 0;
     }
+  },
+  activated() {
+    this.getSqlList();
   },
   methods: {
     start() {
@@ -328,8 +308,7 @@ export default {
       }
       this.selectedRowKeys = selectedRowKeys;
     },
-    query(e) {
-      e.preventDefault();
+    getSqlList() {
       var url = this.HOME + "/selectTblSql";
       this.$axios({
         method: "post",
@@ -346,25 +325,30 @@ export default {
         this.tblSqlList = [];
         console.log(res);
         var resData = res.data;
-        // if (resData.resultCode) {
-        //   // {"resultCode":"true","resultMsg":"正常响应","tblSqlList":[{"author":"xule","id":2,"isValid":"1"}]}
-        //   for (var i=0; i<resData.tblSqlList.length; i++) {
-        //      resData.tblSqlList[i].key = resData.tblSqlList[i].id;
-        //      this.tblSqlList.push(resData.tblSqlList[i]);
-        //   }
-        //   // this.tblSqlList = resData.tblSqlList;
-        //    console.log("this.tblSqlList:"+ this.tblSqlList);
-        // } else {
-
-        // }
-        if (resData.success) {
-          for (var i = 0; i < resData.data.length; i++) {
-            resData.data[i].key = resData.data[i].id;
-            resData.data[i].sqlDetail = resData.data[i].id;
-            this.tblSqlList.push(resData.data[i]);
+        if (resData.resultCode) {
+          // {"resultCode":"true","resultMsg":"正常响应","tblSqlList":[{"author":"xule","id":2,"isValid":"1"}]}
+          for (var i=0; i<resData.resultData.length; i++) {
+             resData.resultData[i].key = resData.resultData[i].id;
+             resData.resultData[i].sqlDetail = resData.resultData[i].id;
+             this.tblSqlList.push(resData.resultData[i]);
           }
+          // this.tblSqlList = resData.tblSqlList;
+           console.log("this.tblSqlList:"+ this.tblSqlList);
+        } else {
+
         }
+        // if (resData.success) {
+        //   for (var i = 0; i < resData.data.length; i++) {
+        //     resData.data[i].key = resData.data[i].id;
+        //     resData.data[i].sqlDetail = resData.data[i].id;
+        //     this.tblSqlList.push(resData.data[i]);
+        //   }
+        // }
       });
+    },
+    query(e) {
+      e.preventDefault();
+      this.getSqlList();
     },
     addSql() {
       this.$router.push("/addSql");
@@ -385,9 +369,15 @@ export default {
       }
       this.sqlDetailVisible = true;
     },
-    deleteSql() {},
-    handleDeleteOk() {},
-    handleDeleteModalCancel() {},
+    deleteSql() {
+      this.deleteVisible = true;
+    },
+    handleDeleteOk() {
+      this.deleteVisible = false;
+    },
+    handleDeleteModalCancel() {
+      this.deleteVisible = false;
+    },
     showDownloadModal() {
       this.downloadVisible = true;
     },

@@ -115,7 +115,15 @@ export default{
     },
     getSql() {
       var sqlId = this.$route.params.id;
-      var url = this.HOME + '/getSqlById';
+      var url = this.HOME + '/selectTblSqlById';
+      // this.form.setFieldsValue({['version']: ""});
+      // this.form.setFieldsValue({['type']: ""});
+      // this.form.setFieldsValue({['author']: ""});
+      // this.form.setFieldsValue({['requirementNumber']: ""});
+      // this.form.setFieldsValue({['environment']: ""});
+      // this.form.setFieldsValue({['comment']: ""});
+      // this.form.setFieldsValue({['sqlText']: ""});
+      // this.form.setFieldsValue({['sqlTextBack']: ""});
       this.$axios({
         method: "post",
         url: url,
@@ -124,21 +132,35 @@ export default{
         }
     }).then(res => {
         var resData = res.data;
-        if (resData.success) {
-            console.log("版本号:" + resData.data.version);
-            this.form.setFieldsValue({['version']: resData.data.version});
-            this.form.setFieldsValue({['type']: resData.data.type});
-            this.form.setFieldsValue({['author']: resData.data.author});
-            this.form.setFieldsValue({['requirementNumber']: resData.data.requirementNumber});
-            this.form.setFieldsValue({['environment']: resData.data.environment});
-            this.form.setFieldsValue({['comment']: resData.data.comment});
-            this.form.setFieldsValue({['sqlText']: resData.data.sqlText});
-            this.form.setFieldsValue({['sqlTextBack']: resData.data.sqlTextBack});
+        if (resData.resultCode) {
+            console.log("版本号:" + resData.resultData.version);
+            this.form.setFieldsValue({['version']: resData.resultData.version});
+            this.form.setFieldsValue({['type']: resData.resultData.type});
+            this.form.setFieldsValue({['author']: resData.resultData.author});
+            this.form.setFieldsValue({['requirementNumber']: resData.resultData.requirementNumber});
+            this.form.setFieldsValue({['environment']: resData.resultData.environment});
+            this.form.setFieldsValue({['comment']: resData.resultData.comment});
+            this.form.setFieldsValue({['sqlText']: resData.resultData.sqlText});
+            this.form.setFieldsValue({['sqlTextBack']: resData.resultData.sqlTextBack});
         }
+        
+        //dev
+        // if (resData.success) {
+        //     console.log("版本号:" + resData.data.version);
+        //     this.form.setFieldsValue({['version']: resData.data.version});
+        //     this.form.setFieldsValue({['type']: resData.data.type});
+        //     this.form.setFieldsValue({['author']: resData.data.author});
+        //     this.form.setFieldsValue({['requirementNumber']: resData.data.requirementNumber});
+        //     this.form.setFieldsValue({['environment']: resData.data.environment});
+        //     this.form.setFieldsValue({['comment']: resData.data.comment});
+        //     this.form.setFieldsValue({['sqlText']: resData.data.sqlText});
+        //     this.form.setFieldsValue({['sqlTextBack']: resData.data.sqlTextBack});
+        // }
       });
     },
     saveSql() {
-      var url = this.HOME + '/updateSql';
+      // var url = this.HOME + '/updateSql';
+      var url = this.HOME + '/updateTblSql';
       this.$axios({
         method: "post",
         url: url,
@@ -156,13 +178,16 @@ export default{
         }
       }).then(res => {
         var resData = res.data;
-        if (resData.success) {
-          this.getSql();
+        if (resData.resultCode) {
+          this.$router.replace("/querySql");
         }
       });
     }
   },
-  mounted() {
+  // mounted() {
+  //   this.getSql();
+  // },
+  activated() {
     this.getSql();
   }
 }

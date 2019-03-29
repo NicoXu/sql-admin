@@ -116,14 +116,14 @@ export default{
     getSql() {
       var sqlId = this.$route.params.id;
       var url = this.HOME + '/selectTblSqlById';
-      // this.form.setFieldsValue({['version']: ""});
-      // this.form.setFieldsValue({['type']: ""});
-      // this.form.setFieldsValue({['author']: ""});
-      // this.form.setFieldsValue({['requirementNumber']: ""});
-      // this.form.setFieldsValue({['environment']: ""});
-      // this.form.setFieldsValue({['comment']: ""});
-      // this.form.setFieldsValue({['sqlText']: ""});
-      // this.form.setFieldsValue({['sqlTextBack']: ""});
+      this.form.setFieldsValue({['version']: ""});
+      this.form.setFieldsValue({['type']: ""});
+      this.form.setFieldsValue({['author']: ""});
+      this.form.setFieldsValue({['requirementNumber']: ""});
+      this.form.setFieldsValue({['environment']: ""});
+      this.form.setFieldsValue({['comment']: ""});
+      this.form.setFieldsValue({['sqlText']: ""});
+      this.form.setFieldsValue({['sqlTextBack']: ""});
       this.$axios({
         method: "post",
         url: url,

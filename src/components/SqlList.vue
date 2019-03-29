@@ -114,7 +114,6 @@
       :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
       :columns="columns"
       :dataSource="tblSqlList"
-      :selection="{onSelect: onRowSelect}"
     >
       <a
         slot="sqlDetail"
@@ -183,7 +182,9 @@
         :visible="sqlDetailVisible"
         :closable="false"
         @ok="handleSqlDetailOk"
+        @cancel="handleSqlDetailOk"
         okText="知道了"
+        cancelText="取消"
       >
         <span style="font-weight:bold">正向脚本:</span>
         <p style="color:red">{{sqlText}}</p>
@@ -327,6 +328,7 @@ export default {
         var resData = res.data;
         if (resData.resultCode) {
           // {"resultCode":"true","resultMsg":"正常响应","tblSqlList":[{"author":"xule","id":2,"isValid":"1"}]}
+          this.selectedRowKeys = [];
           for (var i=0; i<resData.resultData.length; i++) {
              resData.resultData[i].key = resData.resultData[i].id;
              resData.resultData[i].sqlDetail = resData.resultData[i].id;
@@ -398,7 +400,6 @@ export default {
 .components-input-demo-size .ant-input {
   margin: 0 8px 8px 0;
 }
-
 .ant-advanced-search-form .ant-form-item {
   display: flex;
 }

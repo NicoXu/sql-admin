@@ -54,7 +54,21 @@ export default {
     onSubmit (e) {
       e.preventDefault()
       this.form.validateFields((err, values) => {
-        this.$router.replace('/sql')
+        if (!err) {
+            var userName = this.form.getFieldValue('name');
+            var password = this.form.getFieldValue('password');
+            console.log(userName);
+            if (userName !== 'admin') {
+              this.$message.error("用户名为admin");
+              return;
+            }
+            if (password !== 'admin') {
+              this.$message.error("密码错误");
+              return;
+            }
+            this.$router.replace('/sql');
+        }
+
         // if (!err) {
         //   this.logging = true
         //   this.$axios.post('/login', {

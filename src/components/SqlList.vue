@@ -2,40 +2,20 @@
   <div>
     <div style="margin-bottom: 16px">
       <div class="components-input-demo-size">
-        <a-form
-          class="ant-advanced-search-form"
-          :form="form"
-          :autoFormCreate="(form) => this.form = form"
-          @submit="query"
-        >
+        <a-form class="ant-advanced-search-form" :form="form" :autoFormCreate="(form) => this.form = form" @submit="query">
           <a-row>
             <a-col :md="8" :sm="24">
-              <a-form-item
-                fieldDecoratorId="version"
-                label="版本号"
-                :labelCol="{span: 5}"
-                :wrapperCol="{span: 18, offset: 1}"
-              >
+              <a-form-item fieldDecoratorId="version" label="版本号" :labelCol="{span: 5}" :wrapperCol="{span: 18, offset: 1}">
                 <a-input/>
               </a-form-item>
             </a-col>
             <a-col :md="8" :sm="24">
-              <a-form-item
-                fieldDecoratorId="requirementNumber"
-                label="需求号"
-                :labelCol="{span: 5}"
-                :wrapperCol="{span: 18, offset: 1}"
-              >
+              <a-form-item fieldDecoratorId="requirementNumber" label="需求号" :labelCol="{span: 5}" :wrapperCol="{span: 18, offset: 1}">
                 <a-input/>
               </a-form-item>
             </a-col>
             <a-col :md="8" :sm="24">
-              <a-form-item
-                fieldDecoratorId="author"
-                label="作者"
-                :labelCol="{span: 5}"
-                :wrapperCol="{span: 18, offset: 1}"
-              >
+              <a-form-item fieldDecoratorId="author" label="作者" :labelCol="{span: 5}" :wrapperCol="{span: 18, offset: 1}">
                 <a-select>
                   <a-select-option value="xule">徐乐</a-select-option>
                   <a-select-option value="zhaokaining">赵凯宁</a-select-option>
@@ -50,7 +30,6 @@
                   <a-select-option value="wangxuan">王炫</a-select-option>
                   <a-select-option value="yanwang">颜旺</a-select-option>
                   <a-select-option value="limeng">李蒙</a-select-option>
-                  <a-select-option value="liupengbo">刘鹏博</a-select-option>
                   <a-select-option value="yuansili">袁思丽</a-select-option>
                   <a-select-option value="wangxiaojuan">王晓娟</a-select-option>
                 </a-select>
@@ -59,12 +38,7 @@
           </a-row>
           <a-row>
             <a-col :md="8" :sm="24">
-              <a-form-item
-                fieldDecoratorId="type"
-                label="脚本类型"
-                :labelCol="{span: 5}"
-                :wrapperCol="{span: 18, offset: 1}"
-              >
+              <a-form-item fieldDecoratorId="type" label="脚本类型" :labelCol="{span: 5}" :wrapperCol="{span: 18, offset: 1}">
                 <a-select>
                   <a-select-option value="CONFIG_DML">配置数据变更</a-select-option>
                   <a-select-option value="BUS_DML">业务数据变更</a-select-option>
@@ -73,12 +47,7 @@
               </a-form-item>
             </a-col>
             <a-col :md="8" :sm="24">
-              <a-form-item
-                fieldDecoratorId="environment"
-                label="使用环境"
-                :labelCol="{span: 5}"
-                :wrapperCol="{span: 18, offset: 1}"
-              >
+              <a-form-item fieldDecoratorId="environment" label="使用环境" :labelCol="{span: 5}" :wrapperCol="{span: 18, offset: 1}">
                 <a-select>
                   <a-select-option value="DEV">开发环境</a-select-option>
                   <a-select-option value="SIT">测试环境</a-select-option>
@@ -88,12 +57,7 @@
               </a-form-item>
             </a-col>
             <a-col :md="8" :sm="24">
-              <a-form-item
-                fieldDecoratorId="isValid"
-                label="有效"
-                :labelCol="{span: 5}"
-                :wrapperCol="{span: 18, offset: 1}"
-              >
+              <a-form-item fieldDecoratorId="isValid" label="有效" :labelCol="{span: 5}" :wrapperCol="{span: 18, offset: 1}">
                 <a-select defaultValue="1">
                   <a-select-option value="1">有效</a-select-option>
                   <a-select-option value="2">无效</a-select-option>
@@ -110,39 +74,18 @@
       <a-button type="primary" icon="file-add" @click="addSql">新增</a-button>
       <a-button icon="download" @click="showDownloadModal">下载</a-button>
     </div>
-    <a-table
-      :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
-      :columns="columns"
-      :dataSource="tblSqlList"
-    >
-      <a
-        slot="sqlDetail"
-        slot-scope="text"
-        href="javascript:;"
-        @click="showSqlDetail(text)"
-      >{{text}}</a>
+    <a-table :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}" :columns="columns" :dataSource="tblSqlList">
+      <a slot="sqlDetail" slot-scope="text" href="javascript:;" @click="showSqlDetail(text)">{{text}}</a>
     </a-table>
 
     <!--下载模态框-->
     <div>
-      <a-modal
-        title="下载提测脚本"
-        :visible="downloadVisible"
-        @ok="handleDownloadOk"
-        @cancel="handleDownloadModalCancel"
-        okText="确认"
-        cancelText="取消"
-      >
+      <a-modal title="下载提测脚本" :visible="downloadVisible" @ok="handleDownloadOk" @cancel="handleDownloadModalCancel" okText="确认"
+        cancelText="取消">
         <a-form layout="vertical">
           <a-row>
             <a-col :xs="12" :sm="24">
-              <a-form-item
-                label="版本号"
-                :labelCol="{span: 3}"
-                :wrapperCol="{span: 14, offset: 1}"
-                fieldDecoratorId="version"
-                :fieldDecoratorOptions="{rules: [{ required: true, message: '版本号不能为空', whitespace: true}]}"
-              >
+              <a-form-item label="版本号" :labelCol="{span: 3}" :wrapperCol="{span: 14, offset: 1}" fieldDecoratorId="version" :fieldDecoratorOptions="{rules: [{ required: true, message: '版本号不能为空', whitespace: true}]}">
                 <a-input/>
               </a-form-item>
             </a-col>
@@ -163,29 +106,15 @@
 
     <!--删除模态框-->
     <div>
-      <a-modal
-        title="删除所选脚本"
-        :visible="deleteVisible"
-        @ok="handleDeleteOk"
-        @cancel="handleDeleteModalCancel"
-        okText="确认"
-        cancelText="取消"
-      >
+      <a-modal title="删除所选脚本" :visible="deleteVisible" @ok="handleDeleteOk" @cancel="handleDeleteModalCancel" okText="确认" cancelText="取消">
         <p style="color:red,font-weight:bold">确认删除所选脚本？</p>
       </a-modal>
     </div>
 
     <!--当前脚本模态框-->
     <div>
-      <a-modal
-        :title="sqlName"
-        :visible="sqlDetailVisible"
-        :closable="false"
-        @ok="handleSqlDetailOk"
-        @cancel="handleSqlDetailOk"
-        okText="知道了"
-        cancelText="取消"
-      >
+      <a-modal :title="sqlName" :visible="sqlDetailVisible" :closable="false" @ok="handleSqlDetailOk" @cancel="handleSqlDetailOk"
+        okText="知道了" cancelText="取消">
         <span style="font-weight:bold">正向脚本:</span>
         <p style="color:red">{{sqlText}}</p>
         <span style="font-weight:bold">逆向脚本:</span>
@@ -279,7 +208,7 @@ export default {
   computed: {
     hasSelected() {
       return this.selectedRowKeys.length > 0;
-    }
+    },
   },
   activated() {
     this.getSqlList();
@@ -327,25 +256,19 @@ export default {
         console.log(res);
         var resData = res.data;
         if (resData.resultCode) {
-          // {"resultCode":"true","resultMsg":"正常响应","tblSqlList":[{"author":"xule","id":2,"isValid":"1"}]}
           this.selectedRowKeys = [];
+          this.updateBtnDisabled = true;
+          this.deleteBtnDisabled = true;
           for (var i=0; i<resData.resultData.length; i++) {
              resData.resultData[i].key = resData.resultData[i].id;
              resData.resultData[i].sqlDetail = resData.resultData[i].id;
              this.tblSqlList.push(resData.resultData[i]);
           }
-          // this.tblSqlList = resData.tblSqlList;
+          this.$message.success("查询脚本数据成功");
            console.log("this.tblSqlList:"+ this.tblSqlList);
         } else {
-
+          this.$message.success("查询脚本数据失败");
         }
-        // if (resData.success) {
-        //   for (var i = 0; i < resData.data.length; i++) {
-        //     resData.data[i].key = resData.data[i].id;
-        //     resData.data[i].sqlDetail = resData.data[i].id;
-        //     this.tblSqlList.push(resData.data[i]);
-        //   }
-        // }
       });
     },
     query(e) {
@@ -397,10 +320,11 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.components-input-demo-size .ant-input {
-  margin: 0 8px 8px 0;
-}
-.ant-advanced-search-form .ant-form-item {
-  display: flex;
-}
+  .components-input-demo-size .ant-input {
+    margin: 0 8px 8px 0;
+  }
+  
+  .ant-advanced-search-form .ant-form-item {
+    display: flex;
+  }
 </style>

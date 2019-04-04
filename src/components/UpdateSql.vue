@@ -133,7 +133,6 @@ export default{
     }).then(res => {
         var resData = res.data;
         if (resData.resultCode) {
-            console.log("版本号:" + resData.resultData.version);
             this.form.setFieldsValue({['version']: resData.resultData.version});
             this.form.setFieldsValue({['type']: resData.resultData.type});
             this.form.setFieldsValue({['author']: resData.resultData.author});
@@ -179,14 +178,14 @@ export default{
       }).then(res => {
         var resData = res.data;
         if (resData.resultCode) {
+          this.$message.success("修改脚本成功");
           this.$router.replace("/querySql");
+        } else {
+          this.$message.error("修改脚本失败");
         }
       });
     }
   },
-  // mounted() {
-  //   this.getSql();
-  // },
   activated() {
     this.getSql();
   }

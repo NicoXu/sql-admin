@@ -1,12 +1,16 @@
 <template>
-    
+    <div>
+        <a-avatar icon="user" />
+    </div>
 </template>
 
 <script>
 export default {
     name: 'Header',
     data () {
-        return
+        return {
+            
+        }
     },
     methods: {
         
@@ -15,7 +19,5 @@ export default {
 </script>
 
 <style lang="less" scoped>
-    
+
 </style>
-
-
